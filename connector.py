@@ -3,6 +3,7 @@ import hashlib
 import bcrypt
 import tkinter as tk
 from tkinter import messagebox
+#Establishing connection to the database
 from ttkthemes import ThemedStyle
 DB = mysql.connector.connect(
   host="52.207.184.60",
@@ -12,6 +13,7 @@ DB = mysql.connector.connect(
 )
 print(DB)
 mycursor = DB.cursor()
+#Query used to gather users password and username from user table in database(SQL) Also using an exception for better error handling
 def login_GUI(username,password,root):
     try:
         login_query='''SELECT * FROM User WHERE username=%s and password=%s'''
@@ -24,6 +26,7 @@ def login_GUI(username,password,root):
     except mysql.connector.Error as error:
         print("Error while connecting to database")
         messagebox.showerror("Database Error", "Error while connecting to database." + str(error))
+#Start of creating an account.
 def create_account_GUI(root):
     def create_account(login_screen_root):
         create_username=username_entry.get()
@@ -31,7 +34,9 @@ def create_account_GUI(root):
         create_firstname=firstname_entry.get()
         create_lastname=lastname_entry.get()
         create_usertype=usertype_entry.get()
+        #Hashed password for better security and protection of your account.
         hashed_password=hashlib.sha256(create_password.encode()).hexdigest()
+        #Query used to store created account into User table(SQL)
         create_account_sql='''INSERT INTO User(username,password,first_name,last_name,user_type,hashed_password)
                                     VALUES(%s,%s,%s,%s,%s,%s)'''
         mycursor.execute(create_account_sql,(create_username,create_password,create_firstname,create_lastname,create_usertype,hashed_password))
@@ -39,6 +44,7 @@ def create_account_GUI(root):
         messagebox.showinfo("Account Created","Account has successfully been created!")
         create_account_window.destroy()
         login_screen_root.deiconify()
+    #Start of GUI for creating an account.
     create_account_window = tk.Toplevel(root)
     create_account_window.title("Account Creation")
     username_label = tk.Label(create_account_window, text="Username:")
@@ -68,6 +74,7 @@ def create_account_GUI(root):
 
     create_account_button = tk.Button(create_account_window, text="Create Account", command=lambda:create_account(root))
     create_account_button.grid(row=5, column=1)
+#Building the login screen GUI
 def login_screen():
     root = tk.Tk()
     root.title("Library Login")
@@ -85,6 +92,7 @@ def login_screen():
     password_label.grid(row=1,column=0,sticky="w")
     password_entry=tk.Entry(frame,show="*", textvariable=input_password)
     password_entry.grid(row=1,column=1)
+    #When logging in, the login screen will disappear OR hides the login window, when creating an account. If no option is choosen, a error will output in a messagebox.
     def on_login():
         username= username_entry.get()
         password= password_entry.get()
@@ -96,13 +104,15 @@ def login_screen():
             login_GUI(username,password,root)
         else:
             messagebox.showerror("Login Error","Invalid username or password, please try again!")
+    #Creation of the login button, also the functionality of it.
     login_button =tk.Button(frame, text="Login",command=on_login)
     login_button.grid(row=2,columnspan=2, pady=5)
     create_account_button=tk.Button(frame, text="Create Account",command=lambda:create_account_GUI(root))
     create_account_button.grid(row=3,columnspan=2, pady=5)
     root.mainloop()
 def library_ui(username,root):
-    def search_books():
+  #query's used to search books, return books, borrow books and view all books(also thee logout functionality)
+  def search_books():
         search_query=search_input.get()
         if search_query:
             search_book_sql='''SELECT * FROM books_table WHERE title LIKE %s'''
@@ -136,6 +146,7 @@ def library_ui(username,root):
         book_list.delete(0,tk.END)
         for book in all_books:
             book_list.insert(tk.END,book[1])
+    #The start of building the GUI of the Library
     root.destroy()
     library_window=tk.Tk()
     library_window.title("Library Interface: ")
