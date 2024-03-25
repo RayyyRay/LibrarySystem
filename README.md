@@ -1,4 +1,34 @@
 # LibrarySystem
-Create an account and start searching!
-
-Notes are within the code to guide you!
+_______________
+This code demonstrates a basic implementation of a library management system with account creation, user authentication, account creation, and book managment functionalities using Python and MySQL database, including a simple GUI using Tkinter.
+______________________________________________________________________________________________________________________________________________________________________________________________
+IMPORTS:
+hashlib- Used for passowring hashing
+bcrypt- Used for password encryption
+tkinter- Used for GUI (Graphical User Interface)
+messagebox- Used for displaying messages through tkinter
+_______________________________________________
+DATABASE CONNECTION:
+Entering the correct credientials will establish a connection to a MySQL database.
+__________________________________________________________________________________
+LOGIN GUI FUNCTION:
+The "login_GUI" function uses a SQL select query to search the database for the entered username and password to find a match.
+______________________________________________________________________________________________________________________________
+CREATE ACCOUNT GUI FUNCTION:
+The "create_account_GUI" function creates a new user account taking the inputs from the user such as, first name, last name, username, password and user type. The password is then hashed upon creation and the account information is then stored in the database.
+_______________________________________________________________________________________________________________________________________________________________________________________________
+LOGIN SCREEN FUNCTION:
+The "login_screen" function is the GUI for the login screen, entry widgets are needed for username and password. Buttons are also included for login and create account. Once successfully loged in, the GUI transitions to the library interface.
+________________________________________________________________________________________________________________________________________________________________________________________________
+LIBRARY INTERFACE FUNCTION:
+The "library_ui" function creates the GUI for the library interface. There are multiple functionalities such as displaying book lists, borrowing and returning books, searching for books and logging out.
+________________________________________________________________________________________________________________________________________________________________________________________________
+SEARCH BOOKS FUCNTIONALITY:
+Allows users to search for books by providing a title, or display all books if not search query is provided.
+________________________________________________________________________________________________________________________________________________________________________________________________
+RETURNING AND BORROWING BOOKS FUNCTIONALITY:
+Users can return or borrow books by providing a title. The database is updated accordingly.
+________________________________________________________________________________________________________________________________________________________________________________________________
+LOGOUT FUNCTIONALITY:
+Allows users to log out of the library system, returning the user to the login screen and closing the library interface.
+________________________________________________________________________________________________________________________________________________________________________________________________
